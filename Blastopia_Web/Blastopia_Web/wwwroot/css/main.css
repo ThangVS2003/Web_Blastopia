@@ -1005,7 +1005,7 @@ a.menu-toggle {
 .main-navigation li a {
 	display: block;
 	padding: 10px 7px;
-	line-height: 30px;
+	line-height: 15px;
 	text-decoration: none;
 	text-align: left;
 	color: #98999a;
@@ -2242,13 +2242,43 @@ footer ul li {
 .footer-main ul a:hover, .footer-main ul a:focus {
 	color: #FFFFFF;
 }
-.footer-main .footer-logo {
-	width: 162px;
-	height: 39px;
-	background: url("../images/footer-logo.png") no-repeat center;
-	background-size: 162px 39px;
-	margin: -.6rem 0 2.1rem -.3rem;
-	display: block;
+	/* =================================================================== */
+	/* 26. Cập nhật Logo Footer & Tên Thương Hiệu */
+	/* =================================================================== */
+
+	.footer-main .footer-logo-wrapper {
+		display: flex; /* Dùng Flexbox để căn chỉnh các phần tử con */
+		align-items: center; /* Căn giữa theo chiều dọc */
+		margin-bottom: 2rem; /* Khoảng cách với đoạn văn bản bên dưới */
+	}
+
+	.footer-main .footer-logo {
+		background: url("../images/logo_v2.png") no-repeat center;
+		background-size: cover; /* Đảm bảo hình ảnh vừa vặn trong div */
+		width: 60px; /* Kích thước icon logo mới */
+		height: 60px; /* Kích thước icon logo mới */
+		margin-right: 1.5rem; /* Khoảng cách giữa logo và chữ */
+		border-radius: 50%; /* Nếu logo của bạn hình tròn */
+	}
+
+	.footer-main .footer-brand-name {
+		font-family: "raleway-bold", sans-serif; /* Dùng font của template */
+		font-size: 3rem; /* Kích thước chữ */
+		color: #FFFFFF; /* Màu trắng */
+		letter-spacing: 0.1rem; /* Khoảng cách chữ */
+		text-transform: uppercase; /* Chữ in hoa */
+		margin-top: 0.5rem; /* Chỉnh nhẹ vị trí nếu cần */
+	}
+
+/* Điều chỉnh trên các màn hình nhỏ hơn (Tablet và Mobile) */
+@media only screen and (max-width: 768px) {
+	.footer-main .footer-logo-wrapper {
+		justify-content: center; /* Căn giữa logo và tên trên mobile/tablet */
+	}
+
+	.footer-main .footer-brand-name {
+		font-size: 2.5rem;
+	}
 }
 .footer-main .footer-subscribe p {
 	margin-bottom: 1.2rem;
@@ -2540,4 +2570,149 @@ footer ul li {
 /* Khu vực Tin Tức */
 #faq {
 	background-color: #f5f8fd; /* Nền xanh xám rất nhạt (xen kẽ) */
+}
+/* =================================================================== */
+/* 23. Tùy chỉnh nút "CHƠI NGAY"
+/* =================================================================== */
+
+#main-nav-wrap .main-navigation li.custom-play-button a {
+	background-color: #E74C3C; /* Màu nền đỏ */
+	color: #FFFFFF !important; /* Màu chữ trắng (quan trọng) */
+	/* Điều chỉnh padding và bo góc */
+	padding-left: 20px !important;
+	padding-right: 20px !important;
+	border-radius: 5px;
+	/* Ghi đè hiệu ứng 'current' (gạch chân) của template */
+	border-bottom: none !important;
+}
+
+/* Xóa gạch chân khi 'current' */
+#main-nav-wrap .main-navigation li.custom-play-button.current a::after {
+	display: none;
+}
+
+/* Hiệu ứng Hover (khi di chuột vào) */
+#main-nav-wrap .main-navigation li.custom-play-button a:hover {
+	background-color: #C0392B; /* Màu đỏ đậm hơn */
+	color: #FFFFFF !important;
+}
+
+/* Ẩn đường gạch dọc bên trái (vốn có của class 'with-sep') */
+#main-nav-wrap .main-navigation li.custom-play-button.with-sep a::before {
+	display: none;
+}
+/* =================================================================== */
+/* 24. Căn giữa Header khi cuộn (Sticky)
+/* =================================================================== */
+
+/* 1. Đặt chiều cao MỚI cho header khi cuộn */
+header.sticky .row {
+	height: 54px; /* Giảm chiều cao từ 66px xuống 54px */
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+/* 2. Căn giữa LOGO (Blastopia) khi cuộn */
+header.sticky .logo a {
+	height: 54px; /* Đặt chiều cao bằng header mới (flexbox sẽ tự căn giữa) */
+}
+
+	header.sticky .logo a::before {
+		width: 38px; /* Kích thước logo sticky gốc */
+		height: 38px;
+		background-size: 38px 38px;
+	}
+
+	header.sticky .logo a .logo-text {
+		font-size: 2.0rem; /* Giảm font-size một chút */
+	}
+
+/* 3. Căn giữa NAV MENU (THÔNG TIN, TỔNG QUAN...) khi cuộn */
+header.sticky .main-navigation {
+	min-height: 54px; /* Chiều cao mới */
+}
+
+	header.sticky .main-navigation li {
+		height: 54px; /* Chiều cao mới */
+	}
+
+		header.sticky .main-navigation li a {
+			padding-top: 12px; /* Giảm padding (12 + 30 (line-height) + 12 = 54px) */
+			padding-bottom: 12px;
+			line-height: 30px; /* Giữ nguyên line-height */
+		}
+
+		/* 4. Sửa nút "CHƠI NGAY" khi cuộn */
+		header.sticky .main-navigation li.custom-play-button a {
+			/* (54px - 40px (chiều cao nút)) / 2 = 7px */
+			margin-top: 7px;
+			padding-top: 5px !important;
+			padding-bottom: 5px !important;
+			line-height: 30px;
+		}
+
+		/* 5. Sửa vị trí submenu khi cuộn */
+		header.sticky .main-navigation li .sub-menu {
+			top: 54px; /* Vị trí mới (bằng chiều cao header sticky) */
+		}
+
+		/* 6. Sửa gạch chân cho 'current' item khi sticky */
+		header.sticky .main-navigation li.current a::after {
+			bottom: 5px; /* Điều chỉnh lại vị trí gạch chân */
+		}
+/* =================================================================== */
+/* 27. Đổi màu nút "TẢI NGAY" (ở phần Tổng Quan)
+/* =================================================================== */
+
+/* Đặt màu nền đỏ cho nút */
+#process .button-download {
+	background-color: #E74C3C; /* Màu đỏ (giống nút CHƠI NGAY) */
+	color: #FFFFFF;
+}
+
+	/* Hiệu ứng khi di chuột vào */
+	#process .button-download:hover {
+		background-color: #C0392B; /* Màu đỏ đậm hơn */
+		color: #FFFFFF;
+	}
+/* =================================================================== */
+/* 28. Ghi đè Phông chữ Tiếng Việt
+/* =================================================================== */
+
+/* * 1. Áp dụng phông Noto Serif cho văn bản (thân bài)
+ * (Thay thế cho 'merriweather-regular')
+ */
+body {
+	font-family: 'Noto Serif', serif;
+}
+
+/* * 2. Áp dụng phông Be Vietnam Pro cho Tiêu đề
+ * (Thay thế cho 'raleway-bold', 'raleway-heavy')
+ */
+h1, h2, h3, h4, h5, h6,
+.h01, .h02, .h03, .h04, .h05, .h06,
+.button, button, input[type="submit"], input[type="reset"], input[type="button"],
+#main-nav-wrap,
+.header-logo-text .logo-text, /* Chữ Blastopia cạnh logo */
+.footer-main .footer-brand-name /* Chữ Blastopia ở footer */ {
+	font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+/* 3. Tinh chỉnh các phông chữ đặc biệt (in đậm, in nghiêng) */
+strong, b {
+	font-family: 'Noto Serif', serif;
+	font-weight: 700; /* Dùng Noto Serif Đậm */
+}
+
+em, i {
+	font-family: 'Noto Serif', serif;
+	font-style: italic; /* Dùng Noto Serif Nghiêng */
+}
+
+p.lead {
+	font-family: 'Noto Serif', serif; /* Dùng Noto Serif cho p.lead */
+	font-weight: 400;
 }

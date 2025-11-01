@@ -1,7 +1,7 @@
 ﻿<header>
     <div class="row">
         <div class="logo">
-            <a class="smoothscroll" href="#intro">
+            <a href="~/">
                 <span class="logo-text">Blastopia</span>
             </a>
         </div>
@@ -20,13 +20,34 @@
                     </ul>
                 </li>
 
-                <li><a href="#" title="">TRUYỀN THÔNG</a></li>
-                <li><a href="#" title="">TIN TỨC</a></li>
-                <li><a href="#" title="">HỖ TRỢ</a></li>
-                <li><a href="#" title="">Mạng xã hội</a></li>
-                <li><a href="#" title="">Thể thao điện tử</a></li>
+                <li class="has-children">
+                    <a href="#" title="">TỔNG QUAN</a>
+                    <ul class="sub-menu">
+                        <li><a href="@Url.Action("Story", "Home")" title="">Cốt truyện</a></li>
+                        <li><a href="@Url.Action("Collection", "Home")" title="">Bộ Sưu Tập</a></li>
+                    </ul>
+                </li>
 
-                <li class="highlight with-sep"><a href="#" title="">Sign Up</a></li>
+                <li class="has-children">
+                    <a href="#" title="">HỖ TRỢ</a>
+                    <ul class="sub-menu">
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScKLtGunYyhYQe4SWolVEiS-k2irJQwT8gwAPG0n2dsmtdc9w/viewform" target="_blank" title="">Hỗ trợ</a></li>
+                        <li><a href="@Url.Action("Community", "Home")" title="">Tiêu chuẩn cộng đồng</a></li>
+                        <li><a href="@Url.Action("Terms", "Home")" title="">Điều khoản sử dụng</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-children">
+                    <a href="#" title="">Mạng xã hội</a>
+                    <ul class="sub-menu">
+                        <li><a href="https://www.facebook.com/profile.php?id=61582494966693" target="_blank" title="">Facebook</a></li>
+                        <li><a href="https://www.tiktok.com/@@blastopia.dev?is_from_webapp=1&sender_device=pc" target="_blank" title="">Tiktok</a></li>
+                    </ul>
+                </li>
+
+                <li class="highlight with-sep custom-play-button">
+                    <a class="smoothscroll" href="#cta" title="">CHƠI NGAY</a>
+                </li>
             </ul>
         </nav>
 

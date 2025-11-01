@@ -1,0 +1,577 @@
+﻿<style>
+    .content-section {
+        padding-top: 15rem;
+        padding-bottom: 12rem;
+        background-color: #1a1e24; /* Nền ngoài (tối) */
+    }
+
+    .collection-wrapper {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #2c3e50; /* Nền trong (tối vừa) */
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        min-height: 800px;
+        border: 1px solid #34495e;
+    }
+
+    /* ----- 1A. SIDEBAR BÊN TRÁI ----- */
+    .collection-sidebar {
+        flex-basis: 260px;
+        flex-shrink: 0;
+        border-right: 1px solid #34495e;
+        padding: 2rem 0;
+    }
+
+        .collection-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .collection-sidebar li a {
+            display: block;
+            padding: 1.5rem 2.5rem;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #bdc3c7;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+            .collection-sidebar li a:hover {
+                background: #34495e;
+                color: #ecf0f1;
+            }
+
+            .collection-sidebar li a.active {
+                background: #34495e;
+                color: #05bca9;
+                border-left: 4px solid #05bca9;
+            }
+
+    /* ----- 1B. KHUNG NỘI DUNG BÊN PHẢI ----- */
+    .collection-content {
+        flex-grow: 1;
+        padding: 2.5rem 3rem;
+        overflow-y: auto;
+    }
+
+    .gallery-grid {
+        display: grid;
+        gap: 2.5rem 2rem;
+    }
+
+    #tab-nhanvat .gallery-grid,
+    #tab-item .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+
+    #tab-bomskill .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Khung bắt mắt */
+    .gallery-item {
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid #34495e;
+        border-radius: 10px;
+        padding: 1.5rem;
+        background: #34495e;
+        cursor: pointer; /* Đặt con trỏ cho tất cả item trong gallery */
+    }
+
+        .gallery-item:hover {
+            transform: scale(1.05) translateY(-5px);
+            border-color: #05bca9;
+            box-shadow: 0 0 25px rgba(5, 188, 169, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-item h4 {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ecf0f1;
+        }
+
+    /* Thu nhỏ ảnh Bom */
+    #tab-bomskill .gallery-item img {
+        object-fit: contain;
+        padding: 1.5rem;
+        box-sizing: border-box;
+        background: #2c3e50;
+    }
+    /* Bỏ con trỏ cho tab Bom */
+    #tab-bomskill .gallery-item {
+        cursor: default;
+    }
+
+    /* Khung Chế Độ Chơi */
+    .gamemode-list .gamemode-item {
+        background: #34495e;
+        padding: 2.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        border: 1px solid #34495e;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+
+        .gamemode-list .gamemode-item:hover {
+            box-shadow: 0 0 25px rgba(5, 188, 169, 0.5);
+            transform: translateY(-5px);
+            border-color: #05bca9;
+        }
+
+        .gamemode-list .gamemode-item h3 {
+            color: #05bca9;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .gamemode-list .gamemode-item p {
+            color: #bdc3c7;
+            font-size: 1.6rem;
+            line-height: 1.7;
+        }
+
+    .content-panel {
+        display: none;
+    }
+
+        .content-panel.active {
+            display: block;
+        }
+
+
+    /* ===== 1C. CSS CHO MODAL CHI TIẾT ===== */
+
+    #character-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+        #character-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+    .modal-content {
+        background: #2c3e50;
+        color: #ecf0f1;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        border: 1px solid #34495e;
+        width: 90%;
+        max-width: 800px;
+        position: relative;
+        transform: translateY(-50px);
+        transition: transform 0.3s ease;
+    }
+
+    #character-modal-overlay.active .modal-content {
+        transform: translateY(0);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 4rem;
+        color: #7f8c8d;
+        cursor: pointer;
+        line-height: 1;
+        transition: color 0.2s ease;
+    }
+
+        .modal-close:hover {
+            color: #ecf0f1;
+        }
+
+    .modal-layout {
+        display: flex;
+        width: 100%;
+    }
+
+    .modal-image {
+        flex-basis: 40%;
+        padding: 2.5rem;
+    }
+
+        .modal-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+    .modal-details {
+        flex-basis: 60%;
+        padding: 2.5rem;
+        border-left: 1px solid #34495e;
+    }
+
+    .modal-char-name {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-weight: 900;
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        margin-top: 0;
+    }
+
+    .modal-skill-title {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-size: 1.4rem;
+        color: #05bca9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 2rem;
+    }
+
+    .modal-skill-name {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-weight: 700;
+        font-size: 2.4rem;
+        color: #ecf0f1;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .modal-skill-desc {
+        font-family: 'Noto Serif', serif;
+        font-size: 1.6rem;
+        line-height: 1.7;
+        color: #bdc3c7;
+        margin-bottom: 2rem;
+    }
+
+    .modal-skill-points-box {
+        background: #34495e;
+        padding: 1.5rem 2rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+        .modal-skill-points-box span {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 1.5rem;
+            color: #bdc3c7;
+        }
+
+        .modal-skill-points-box .points {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #05bca9;
+        }
+
+    /* ===== CSS MỚI: Ẩn/Hiện các phần của Modal ===== */
+    /* Ẩn phần Ulti khi ở chế độ Item */
+    .modal-content.item-mode .modal-skill-title,
+    .modal-content.item-mode .modal-skill-points-box {
+        display: none;
+    }
+
+    /* Hiển thị phần Ulti khi ở chế độ Character */
+    .modal-content.character-mode .modal-skill-title {
+        display: block;
+    }
+
+    .modal-content.character-mode .modal-skill-points-box {
+        display: flex;
+    }
+
+</style>
+
+
+<section class="content-section">
+
+    <div class="row section-intro" data-aos="fade-up">
+        <div class="col-twelve with-bottom-line">
+            <h5 style="color: rgba(255, 255, 255, 0.5);">KHÁM PHÁ</h5>
+            <h1 style="color: #FFFFFF;">BỘ SƯU TẬP</h1>
+            <p class="lead" style="color: rgba(255, 255, 255, 0.7);">Gặp gỡ các chiến binh và khoe khoang kho vũ khí bùng nổ của bạn trong Blastopia.</p>
+        </div>
+    </div>
+
+    <div class="collection-wrapper" data-aos="fade-up">
+
+        <nav class="collection-sidebar">
+            <ul>
+                <li><a href="#tab-nhanvat" class="sidebar-tab active">Nhân vật (11)</a></li>
+                <li><a href="#tab-bomskill" class="sidebar-tab">Kỹ năng Bom (3)</a></li>
+                <li><a href="#tab-item" class="sidebar-tab">Vật phẩm (9)</a></li>
+                <li><a href="#tab-chedochoi" class="sidebar-tab">Chế độ chơi (3)</a></li>
+            </ul>
+        </nav>
+
+        <div class="collection-content">
+
+            <div class="content-panel active" id="tab-nhanvat">
+                <div class="gallery-grid">
+
+                    <div class="gallery-item" data-skill-name="Thánh Thuẫn" data-skill-desc="Bất tử 1 lần trước bom." data-skill-points="3">
+                        <img src="~/images/characters/Spike.png" alt="Spike">
+                        <h4>Spike</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Lăng ba vi bộ" data-skill-desc="Tăng x2 tốc độ trong 3s." data-skill-points="2">
+                        <img src="~/images/characters/WolfPup.png" alt="WolfPup">
+                        <h4>WolfPup</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Phân thân chi thuật" data-skill-desc="Tạo 1 clone ra trước mặt theo hướng mình di chuyển." data-skill-points="3">
+                        <img src="~/images/characters/PracticeDummy.png" alt="PracticeDummy">
+                        <h4>PracticeDummy</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Vũ Điệu Ong Chúa" data-skill-desc="Đi xuyên tường và bom trong 3s." data-skill-points="3">
+                        <img src="~/images/characters/SunflowerFairy.png" alt="SunflowerFairy">
+                        <h4>SunflowerFairy</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Độc Ảnh Trảo" data-skill-desc="Làm chậm 90% tốc độ của kẻ thù trong 3 ô trong 2s." data-skill-points="3">
+                        <img src="~/images/characters/Snake.png" alt="Snake">
+                        <h4>Snake</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Viêm Long Tức" data-skill-desc="Phun lửa ở đường thẳng trước 3 ô gây -1 máu." data-skill-points="3">
+                        <img src="~/images/characters/DragonFire.png" alt="DragonFire">
+                        <h4>DragonFire</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Hủy Thiên Diệt Địa" data-skill-desc="Vô hiệu hoá bom trong 1 hàng ngang/dọc." data-skill-points="3">
+                        <img src="~/images/characters/TrainingDummy.png" alt="TrainingDummy">
+                        <h4>TrainingDummy</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Thiên Thần Hộ Thể" data-skill-desc="Hồi 2 máu và + 1 tầm của bom." data-skill-points="4">
+                        <img src="~/images/characters/SunfloraPixie.png" alt="SunflowerPixie">
+                        <h4>SunflowerPixie</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Ma Vực Loạn Tâm" data-skill-desc="Đảo ngược điều khiển toàn kẻ thù toàn map trong 5s." data-skill-points="4">
+                        <img src="~/images/characters/Wereworf.png" alt="Wereworf">
+                        <h4>Wereworf</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Thiên Mệnh Phản Kích" data-skill-desc="Nếu dính bom sẽ phản lại sát thương cho người đặt, hồi 1 máu và giảm 50% di chuyển sau khi dùng chiêu (chỉ có tác dụng phản lại 1 lần)." data-skill-points="4">
+                        <img src="~/images/characters/HermitKing.png" alt="HermitKing">
+                        <h4>HermitKing</h4>
+                    </div>
+                    <div class="gallery-item" data-skill-name="Lửa Rồng Bao Phủ" data-skill-desc="Trong 5s, tất cả bom mà Rồng Lửa đặt ra có phạm vi nổ rộng gấp đôi và để lại vệt lửa làm kẻ đi qua bị -1 máu (vệt lửa tồn tại trong 5s)." data-skill-points="4">
+                        <img src="~/images/characters/Dragon_Inferno.png" alt="Dragon Inferno">
+                        <h4>Dragon Inferno</h4>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="content-panel" id="tab-bomskill">
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="~/images/bombs/BombHalloween.png" alt="BombHalloween">
+                        <h4>BombHalloween</h4>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="~/images/bombs/BombPoison.png" alt="BombPoison">
+                        <h4>BombPoison</h4>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="~/images/bombs/BombSnow.png" alt="BombSnow">
+                        <h4>BombSnow</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-panel" id="tab-item">
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-item-desc="Tăng số lượng bom có thể đặt cùng lúc.">
+                        <img src="~/images/items/ExtraBomb.png" alt="Thêm Bomb">
+                        <h4>THÊM BOMB</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Tăng tầm nổ của bom.">
+                        <img src="~/images/items/BombRangeUp.png" alt="Tăng Phạm vi">
+                        <h4>TĂNG PHẠM VI</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Tăng tốc độ di chuyển của nhân vật.">
+                        <img src="~/images/items/SpeedBoost.png" alt="Sấm tăng tốc">
+                        <h4>SẤM TĂNG TỐC</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Chặn được một lần sát thương từ bom.">
+                        <img src="~/images/items/Shield.png" alt="Khiên Bảo vệ">
+                        <h4>KHIÊN BẢO VỆ</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Nhân vật tàng hình trong 5 giây, tránh bị đối thủ phát hiện.">
+                        <img src="~/images/items/InvisibilityPotion.png" alt="Thuốc Tàng Hình">
+                        <h4>THUỐC TÀNG HÌNH</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Trong 5 giây, nhân vật đi qua bom sẽ vô hiệu hoá bomb.">
+                        <img src="~/images/items/PhantomWalk.png" alt="Huyễn Ảnh">
+                        <h4>HUYỄN ẢNH</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Quả bom tiếp theo của đối thủ dính phải sẽ làm chậm chúng trong 5s.">
+                        <img src="~/images/items/SlowBomb.png" alt="Bom Chậm">
+                        <h4>BOM CHẬM</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Tạm thời đảo ngược các nút di chuyển của đối thủ.">
+                        <img src="~/images/items/ReverseControls.png" alt="Đảo ngược Điều khiển">
+                        <h4>ĐẢO NGƯỢC ĐIỀU KHIỂN</h4>
+                    </div>
+                    <div class="gallery-item" data-item-desc="Khi nhặt, màn hình của toàn bộ kẻ thù bị tối viền ngoài (chỉ nhìn rõ vùng gần nhân vật).">
+                        <img src="~/images/items/DarkSmoke.png" alt="Khói Đen">
+                        <h4>KHÓI ĐEN</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-panel" id="tab-chedochoi">
+                <div class="gamemode-list">
+                    <div class="gamemode-item">
+                        <h3>ĐẤU MÁY (OFFLINE)</h3>
+                        <p>Chế độ chơi offline, người chơi đối đầu với 5 đối thủ do AI điều khiển. Hoàn hảo để người chơi mới làm quen với cơ chế game và luyện tập kỹ năng.</p>
+                    </div>
+                    <div class="gamemode-item">
+                        <h3>ĐẤU THƯỜNG (ONLINE PVP CASUAL)</h3>
+                        <p>Ghép trận ngẫu nhiên với 5 người chơi khác trong một trận đấu không tính điểm xếp hạng. Chế độ chơi giải trí, thử nghiệm nhân vật mới và hoàn thành nhiệm vụ hàng ngày.</p>
+                    </div>
+                    <div class="gamemode-item">
+                        <h3>ĐẤU HẠNG (ONLINE PVP COMPETITIVE)</h3>
+                        <p>Chế độ chơi cạnh tranh, nơi các trận thắng/thua sẽ ảnh hưởng đến điểm xếp hạng (Rank). Bảng xếp hạng sẽ được làm mới theo mùa. (Yêu cầu Cấp độ 10).</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div id="character-modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div class="modal-layout">
+
+            <div class="modal-image">
+                <img id="modal-char-image" src="" alt="Ảnh chi tiết">
+            </div>
+
+            <div class="modal-details">
+                <h2 id="modal-char-name">Tên</h2>
+
+                <h5 class="modal-skill-title">KỸ NĂNG ULTIMATE</h5>
+                <h3 id="modal-skill-name">Tên Kỹ Năng / Mô Tả</h3>
+
+                <p id="modal-skill-desc">Mô tả sẽ hiển thị ở đây.</p>
+
+                <div class="modal-skill-points-box">
+                    <span>Cách tích Ulti</span>
+                    <span class="points" id="modal-skill-points">3</span>
+                    <span>Point</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // ----- A. XỬ LÝ CHUYỂN TAB -----
+            var $sidebarLinks = $('.collection-sidebar .sidebar-tab');
+            var $contentPanels = $('.content-panel');
+
+            $sidebarLinks.on('click', function (e) {
+                e.preventDefault();
+                var targetId = $(this).attr('href');
+                $sidebarLinks.removeClass('active');
+                $(this).addClass('active');
+                $contentPanels.removeClass('active');
+                $(targetId).addClass('active');
+            });
+
+            // ----- B. XỬ LÝ HIỆN MODAL -----
+            var $modalOverlay = $('#character-modal-overlay');
+            var $modalContent = $modalOverlay.find('.modal-content');
+
+            // 1. Khi click vào một NHÂN VẬT
+            $('#tab-nhanvat .gallery-item').on('click', function () {
+                var $item = $(this);
+
+                // Lấy dữ liệu
+                var name = $item.find('h4').text();
+                var imgSrc = $item.find('img').attr('src');
+                var skillName = $item.data('skill-name');
+                var skillDesc = $item.data('skill-desc');
+                var skillPoints = $item.data('skill-points');
+
+                // Đặt chế độ modal
+                $modalContent.removeClass('item-mode').addClass('character-mode');
+
+                // Đẩy dữ liệu vào modal
+                $modalOverlay.find('#modal-char-image').attr('src', imgSrc);
+                $modalOverlay.find('#modal-char-name').text(name);
+                $modalOverlay.find('#modal-skill-title').text('KỸ NĂNG ULTIMATE'); // Đặt lại tiêu đề
+                $modalOverlay.find('#modal-skill-name').text(skillName);
+                $modalOverlay.find('#modal-skill-desc').text(skillDesc);
+                $modalOverlay.find('#modal-skill-points').text(skillPoints);
+
+                // Hiện modal
+                $modalOverlay.addClass('active');
+            });
+
+            // 2. Khi click vào một VẬT PHẨM (MỚI)
+            $('#tab-item .gallery-item').on('click', function () {
+                var $item = $(this);
+
+                // Lấy dữ liệu
+                var name = $item.find('h4').text();
+                var imgSrc = $item.find('img').attr('src');
+                var itemDesc = $item.data('item-desc');
+
+                // Đặt chế độ modal
+                $modalContent.removeClass('character-mode').addClass('item-mode');
+
+                // Đẩy dữ liệu vào modal
+                $modalOverlay.find('#modal-char-image').attr('src', imgSrc);
+                $modalOverlay.find('#modal-char-name').text(name);
+                $modalOverlay.find('#modal-skill-name').text('MÔ TẢ'); // Dùng ô skill-name để hiển thị "MÔ TẢ"
+                $modalOverlay.find('#modal-skill-desc').text(itemDesc); // Dùng ô skill-desc để hiển thị mô tả
+
+                // Hiện modal
+                $modalOverlay.addClass('active');
+            });
+
+            // 3. Đóng modal
+            function closeModal() {
+                $modalOverlay.removeClass('active');
+            }
+            $modalOverlay.on('click', closeModal);
+            $('.modal-close').on('click', closeModal);
+            $('.modal-content').on('click', function (e) {
+                e.stopPropagation();
+            });
+
+        });
+    </script>
+}

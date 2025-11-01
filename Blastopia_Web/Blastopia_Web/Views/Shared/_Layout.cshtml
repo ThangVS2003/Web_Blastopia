@@ -2,26 +2,31 @@
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Lhander</title>
+    <title>Blastopia - Thiên Đường Bomb Nổ</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700;900&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/base.css">
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/vendor.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <script src="~/js/modernizr.js"></script>
-
-    <link rel="icon" type="image/png" href="~/favicon.png">
+    <link rel="icon" type="image/png" href="~/blastopia-icon.png?v=2">
 </head>
 
 <body id="top">
 
-    <partial name="_Header" /> @RenderBody()
+    <partial name="_Header" />
+
+    @RenderBody()
 
     <partial name="_Footer" />
+
     <div id="preloader">
         <div id="loader"></div>
     </div>
@@ -30,6 +35,15 @@
     <script src="~/js/jquery-migrate-1.2.1.min.js"></script>
     <script src="~/js/plugins.js"></script>
     <script src="~/js/main.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
