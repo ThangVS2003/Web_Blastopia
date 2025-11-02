@@ -9,14 +9,29 @@
         <nav id="main-nav-wrap">
             <ul class="main-navigation">
 
+                @{
+                    var currentAction = ViewContext.RouteData.Values["action"].ToString();
+                }
+
                 <li class="has-children">
                     <a href="#" title="">THÔNG TIN TRÒ CHƠI</a>
                     <ul class="sub-menu">
-                        <li><a class="smoothscroll" href="#intro" title="">Trang chủ</a></li>
-                        <li><a class="smoothscroll" href="#process" title="">Tổng quan</a></li>
-                        <li><a class="smoothscroll" href="#features" title="">Tính năng</a></li>
-                        <li><a class="smoothscroll" href="#pricing" title="">Chế độ chơi</a></li>
-                        <li><a class="smoothscroll" href="#faq" title="">Tin tức</a></li>
+                        @if (currentAction == "Index")
+                        {
+                            <li><a class="smoothscroll" href="#intro" title="">Trang chủ</a></li>
+                            <li><a class="smoothscroll" href="#process" title="">Tổng quan</a></li>
+                            <li><a class="smoothscroll" href="#features" title="">Tính năng</a></li>
+                            <li><a class="smoothscroll" href="#pricing" title="">Chế độ chơi</a></li>
+                            <li><a class="smoothscroll" href="#faq" title="">Tin tức</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Index", "Home")#intro" title="">Trang chủ</a></li>
+                            <li><a href="@Url.Action("Index", "Home")#process" title="">Tổng quan</a></li>
+                            <li><a href="@Url.Action("Index", "Home")#features" title="">Tính năng</a></li>
+                            <li><a href="@Url.Action("Index", "Home")#pricing" title="">Chế độ chơi</a></li>
+                            <li><a href="@Url.Action("Index", "Home")#faq" title="">Tin tức</a></li>
+                        }
                     </ul>
                 </li>
 
@@ -40,13 +55,20 @@
                 <li class="has-children">
                     <a href="#" title="">Mạng xã hội</a>
                     <ul class="sub-menu">
-                        <li><a href="https://www.facebook.com/profile.php?id=61582494966693" target="_blank" title="">Facebook</a></li>
+                        <li><a href="https://facebook.com" target="_blank" title="">Facebook</a></li>
                         <li><a href="https://www.tiktok.com/@@blastopia.dev?is_from_webapp=1&sender_device=pc" target="_blank" title="">Tiktok</a></li>
                     </ul>
                 </li>
 
                 <li class="highlight with-sep custom-play-button">
-                    <a class="smoothscroll" href="#cta" title="">CHƠI NGAY</a>
+                    @if (currentAction == "Index")
+                    {
+                        <a class="smoothscroll" href="#cta" title="">CHƠI NGAY</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Home")#cta" title="">CHƠI NGAY</a>
+                    }
                 </li>
             </ul>
         </nav>

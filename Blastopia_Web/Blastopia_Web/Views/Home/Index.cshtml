@@ -1,36 +1,47 @@
-﻿<section id="intro">
+﻿<style>
+    /* Ép tỷ lệ 16:9 cho video popup */
+    .fluid-video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio (9 / 16 = 0.5625) */
+        height: 0;
+        overflow: hidden;
+    }
+
+        .fluid-video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+</style>
+
+<section id="intro">
+    ```
+<section id="intro">
     <div class="shadow-overlay"></div>
     <div class="intro-content">
         <div class="row">
             <div class="col-twelve">
-                <div class='video-link'>
-                    <a href="https://www.youtube.com/watch?v=YOUR_YOUTUBE_ID_HERE"><img src="~/images/play-button.png" alt="Play Video"></a>
+
+                <div class='video-link' data-aos="fade-up">
+                    <a href="#video-popup"><img src="~/images/play-button.png" alt="Play Video"></a>
                 </div>
-                <h5>HIDDEN FLAME TRÂN TRỌNG GIỚI THIỆU</h5>
-                <h1>BLASTOPIA: THIÊN ĐƯỜNG BOMB NỔ</h1>
-                <a class="button stroke smoothscroll" href="#process" title="">TÌM HIỂU THÊM</a>
+
+                <h5 data-aos="fade-up">HIDDEN FLAME TRÂN TRỌNG GIỚI THIỆU</h5>
+                <h1 data-aos="fade-up">BLASTOPIA: THIÊN ĐƯỜNG BOMB NỔ</h1>
+                <a class="button stroke smoothscroll" data-aos="fade-up" href="#process" title="">TÌM HIỂU THÊM</a>
+
             </div>
         </div>
     </div>
-    <div id="video-popup" class="popup-modal mfp-hide">
-        <div class="fluid-video-wrapper">
-            <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_ID_HERE" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-        </div>
-        <a class="close-popup">Close</a>
-    </div>
-</section>
 
-<section id="process">
-    <div class="row section-intro" data-aos="fade-up">
-        <div class="col-twelve with-bottom-line">
-            <h5>TỔNG QUAN</h5>
-            <h1>CHÚNG TÔI LÀ BLASTOPIA</h1>
-            <p class="lead">Blastopia là một dự án 3D trên nền tảng Android, tập trung vào lối chơi đối kháng PvP nhịp độ cao. Lối chơi cốt lõi (core gameplay) được xây dựng từ sự kết hợp giữa kỹ năng điều khiển, tư duy chiến thuật, và yếu tố ngẫu nhiên từ hệ thống vật phẩm trong trận. Bên cạnh đó, game sở hữu hệ thống meta-game đa dạng và chiều sâu: nhân vật với kỹ năng đặc biệt, bộ sưu tập skin bom phong phú, cửa hàng và gacha với cơ chế pity, nhiệm vụ ngày/tuần, sự kiện tân thủ, cùng các tính năng xã hội như bạn bè, chat, tổ đội và bảng xếp hạng — tất cả nhằm giữ chân người chơi lâu dài và phát triển cộng đồng.</p>
+        <div id="video-popup" class="popup-modal mfp-hide">
+            <div class="fluid-video-wrapper">
+                <iframe src="https://drive.google.com/file/d/1nCZtIuNVpJeF4N4HUtsWjDgF80jWicfU/preview" allow="autoplay"></iframe>
+            </div>
+            <a class="close-popup">Close</a>
         </div>
-    </div>
-    <div class="row" style="text-align: center;" data-aos="fade-up">
-        <a class="button large smoothscroll button-download" href="#cta">TẢI NGAY</a>
-    </div>
 </section>
 
 <section id="features">
